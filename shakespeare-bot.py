@@ -46,7 +46,7 @@ def generatePlace():
         input = business_type.strip(),
         inputtype = "textquery",
         fields = "name,geometry",
-        locationbias = "circle:100000@" + str(latlng["lat"]) + "," + str(latlng["lng"]),
+        locationbias = "circle:1000000@" + str(latlng["lat"]) + "," + str(latlng["lng"]),
         language = "en"
     )
     resp = requests.get(url=url, params=params)
