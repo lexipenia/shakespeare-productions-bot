@@ -25,7 +25,8 @@ def run():
             print("Trying again…")
             sleep(5)
     
-    sendTweet(text)
+    print(text)
+    # sendTweet(text)       # uncomment to activate Twitter
     print("Finished.")
 
 # search for a random business in a random location; it is crucial to pass the location into the API
@@ -149,7 +150,7 @@ def sendTweet(text):
     # send the tweet
     try:
         twitter.update_status(status=text)
-        print("Tweet sent successfully:\n"+text)
+        print("Tweet sent successfully!")
     except Exception as e:
         print("Error posting tweet:",e)
 
