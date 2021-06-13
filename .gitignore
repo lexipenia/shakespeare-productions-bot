@@ -1,2 +1,4 @@
 api_keys.py
 .DS_Store
+__pycache__/api_keys.cpython-39.pyc
+__pycache__/categories.cpython-39.pyc
