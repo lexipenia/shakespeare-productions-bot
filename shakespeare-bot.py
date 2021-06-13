@@ -26,7 +26,7 @@ def run():
             sleep(5)
     
     print(text)
-    # sendTweet(text)       # uncomment to activate Twitter
+    #sendTweet(text)       # uncomment to activate Twitter
     print("Finished.")
 
 # search for a random business in a random location; it is crucial to pass the location into the API
@@ -43,10 +43,10 @@ def generatePlace():
     url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
     params = dict(
         key = maps_api_key,
-        input = business_type.strip(),
+        input = business_type.strip() + " in " + location,
         inputtype = "textquery",
         fields = "name,geometry",
-        locationbias = "circle:1000000@" + str(latlng["lat"]) + "," + str(latlng["lng"]),
+        locationbias = "circle:100000@" + str(latlng["lat"]) + "," + str(latlng["lng"]),
         language = "en"
     )
     resp = requests.get(url=url, params=params)
