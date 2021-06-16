@@ -35,10 +35,10 @@ def run():
 def generatePlace():
 
     business_type = choice(google_business_categories)
-    location = choice(places)
-    latlng = getLatLong(location)
+    location = choice(list(places.keys()))
+    latlng = places[location]
 
-    print("Searching for:",business_type,"in",location)
+    print("Searching for:",business_type.strip(),"in",location)
 
     url = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
     params = dict(
@@ -46,7 +46,7 @@ def generatePlace():
         input = business_type.strip() + " in " + location,
         inputtype = "textquery",
         fields = "name,geometry",
-        locationbias = "circle:100000@" + str(latlng["lat"]) + "," + str(latlng["lng"]),
+        locationbias = "point:" + str(latlng["lat"]) + "," + str(latlng["lng"]),
         language = "en"
     )
     resp = requests.get(url=url, params=params)
@@ -61,30 +61,25 @@ def generatePlace():
         print("No results found. Trying again…")
         return generatePlace()
 
-# find the latitude/longitude of a place to bias the search
-def getLatLong(place):
-    url = "https://maps.googleapis.com/maps/api/geocode/json"
-    params = dict(
-        key = maps_api_key,
-        address = place
-    )
-    resp = requests.get(url=url, params=params)
-    data = resp.json()
-    return data["results"][0]["geometry"]["location"]
-
 # tidy the format of the place + business description and avoid repetitions
 def formatLocation(place_data):
 
-    business_type = ""
+    # set name (=output first item), city and type of business variables
     output = place_data["data"]["name"].strip()
     city = findCity(place_data["data"]["geometry"]["location"])
 
     # provide the business type with the correct case
     # leading " " identifies items with acronyms or sensitive capitalization that would be removed by .lower()
+    business_type = ""
     if place_data["business_type"][0] == " ":
         business_type = place_data["business_type"].strip()
     else:
         business_type = place_data["business_type"].lower()
+
+    # correct apostrophe styles first (as they can affect trimming operations)
+    output = tidyInvertedCommas(output)
+    city = tidyInvertedCommas(city)
+    business_type = tidyInvertedCommas(business_type)
 
     # remove leading "The" in business names if necessary
     if output[0:4] == "The ":
@@ -105,9 +100,6 @@ def formatLocation(place_data):
     # check for place names being repeated within the business name
     if city != "NOT FOUND" and city.lower() not in output.lower():
         output += " in " + city
-
-    # correct apostrophe styles
-    output = tidyInvertedCommas(output)
 
     return output
 
