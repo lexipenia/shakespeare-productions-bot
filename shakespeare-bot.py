@@ -70,7 +70,6 @@ def formatLocation(place_data):
 
     # provide the business type with the correct case
     # leading " " identifies items with acronyms or sensitive capitalization that would be removed by .lower()
-    business_type = ""
     if place_data["business_type"][0] == " ":
         business_type = place_data["business_type"].strip()
     else:
