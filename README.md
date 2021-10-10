@@ -8,7 +8,7 @@ I found that to get Google Maps to return results from countries around the worl
 
 ## API keys
 
-If you want to run this bot without connecting it to Twitter, you will need a Google Maps API key. At present, you must set up a billing account with Google to get one. However, you won't be charged for using the API if you're not doing anything heavy-duty with it. There's a $200 credit available every month.
+If you want to run this bot without connecting it to Twitter, you will still need a Google Maps API key. At present, you must set up a billing account with Google to get one. However, you won't be charged for using the API if you're not doing anything heavy-duty with it. There's a $200 credit available every month.
 
 You'll need to create a file in the same directory as the bot called `api_keys.py` with the following format:
 
